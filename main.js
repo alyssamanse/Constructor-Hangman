@@ -1,85 +1,54 @@
-var inquirer = require("inquirer");
 var Word = require("./word.js");
-var wordToGuess = require("./game.js")
+var Letter = require("./letter.js");
+var inquirer = require("inquirer");
 
+// Word bank with index to choose random word from list
+var wordChoices = ["CHARDONNAY", "RIESLING", "MERLOT", "CABERNET", "ZINFANDEL", "MALBEC", "SHIRAZ", "MOSCATO", "ROSE", "PROSECCO", "CHAMPAGNE", "TEMPRANILLO"];
+var wordIndex = Math.floor(Math.random() * wordChoices.length);
 
-var letterGuessed;
-var maxGuesses;
+var newWord = new Word(wordChoices[wordIndex]);
+var maxGuesses = 10;
 
-function newGame() {
-	var newWord = new Word(wordToGuess);
-	maxGuesses = 15;
-	wordIndex++;
-	
-	playGame(newWord);
-}
+function takeAGuess(){
 
+	// Displays word to guess as a string of blanks and letters
+	console.log(newWord.toDisplay() + "\n");
 
-function playGame(word){
-	if (word.guessedLetters.length >= maxGuesses){
-		console.log('You have no more guesses. WOMP WOMP.');
-	return; //Game over
-}
-inquirer.prompt([
-	{
-	name: 'letter',
-	type: 'text',
-	message: 'Enter a letter:',
+	// Game ends (loss) if no more guesses remain
+	if (newWord.guessedLetters.length >= maxGuesses){
+		console.log("Sorry, no more guesses left!");
+		return; 
 	}
-]).then(function(letterInput){ //Game control
-		word.searchLetter(letterInput); //Check
 
-		if(word.isWordComplete()){ 
-			console.log('Yes! It was ' + word.toString() + '!');
-			return; //Winner
+	// Prompt to guess letter
+	inquirer.prompt([
+		{
+		name: "letter",
+		type: "text",
+		message: "Guess a letter! ",
+		}
+	]).then(function(letterInput){ 
+
+		// Changes input to capital letter
+		var letter = letterInput.letter.toUpperCase(); 
+
+		// Check for input letter in word and change display
+		newWord.searchLetter(letter);
+		newWord.toDisplay();
+
+		// If the entire word is completed and guesses remain, game ends  (win)
+		if(newWord.isWordComplete()){ 
+			console.log("You got it! The word was '" + newWord.toDisplay() + "'");
+			return;
 		}
 
-		console.log('-------------------\n'); //If we are here the game did not end. Next guess.
-		console.log('You have ' + (maxGuesses - word.guessedLetters.length) + ' guesses left.')
-		playGame(); //Recursive call
-	}
-)};
-	
+		// If the word is not completed and guesses remain, prompt to guess again
+		console.log("-----------------\n");
+		console.log("You have " + (maxGuesses - newWord.guessedLetters.length) + " guesses remaining\n");
+		takeAGuess();
 
-newGame(); //Start Game
-
-/* // Keep track of user's remaining guesses
-var guessesRemaining = 5;
-var wordIndex = 0;
-var newWord;
-
-var wordToGuess = function() {
-	newWord = new Word(wordChoices[wordIndex]);
-	wordIndex++;
-	newWord.wordDisplay();
-	promptToGuess(newWord.word);
+		}
+  );
 }
 
-var promptToGuess = function(word) {
-
-	inquirer.prompt([
-	{
-		name: "letterGuessed",
-		message: "Guess a letter!"
-	}
-
-	]).then(function(response){
-
-		// check that input is a single letter
-
-		// check input against letters in word 
-
-		// if input letter exists in array, replace blank with letter and prompt again
-		newWord.letterSearch(response);
-
-		// if input letter does not exist in array, decrease guesses, check remaining guesses
-		// if guesses remain, prompt again
-
-		
-
-		// if there are no guesses remaining, end the game and start over with new word
-	})
-}
-
-wordToGuess();
-// If no guesses remain, ask the user if they want to end the game */
+takeAGuess();

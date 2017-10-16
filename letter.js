@@ -1,13 +1,10 @@
-// Used for each letter in the current word
-
 function Letter(letter) {
-
 	this.letter = letter;
 	this.showLetter = false;
-	
-};
+}
 
-Letter.prototype.toDisplay = function() {
+// Determines whether letter has been guessed to display or to show blank
+Letter.prototype.render = function() {
 	if (this.showLetter) {
 		return this.letter;
 	} else {
