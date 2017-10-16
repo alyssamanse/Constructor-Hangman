@@ -1,6 +1,4 @@
-// Fix incorrect guesses
 // Add option to restart game
-// Check for one letter and alpha char only
 // Push to github
 
 var Word = require("./word.js");
@@ -12,7 +10,7 @@ var wordChoices = ["CHARDONNAY", "RIESLING", "MERLOT", "CABERNET", "ZINFANDEL", 
 var wordIndex = Math.floor(Math.random() * wordChoices.length);
 
 var newWord = new Word(wordChoices[wordIndex]);
-var maxGuesses = 10;
+var maxGuesses = 5;
 
 function takeAGuess(){
 
@@ -28,9 +26,20 @@ function takeAGuess(){
 	// Prompt to guess letter
 	inquirer.prompt([
 		{
-		name: "letter",
-		type: "text",
-		message: "Guess a letter! ",
+			name: "letter",
+			type: "input",
+			message: "Guess a letter! ",
+			validate: function validateGuess(letter){
+	        	if (letter.length > 1) {
+	        		console.log("\nEnter just one letter please.");
+	        		return;
+	        	} else if (!letter.match(/^[a-zA-Z]*$/)) {
+	        		console.log("\nThat's not a letter! Try again..");
+	        		return;
+	        	} else {
+	        		return true;
+	        	}
+			}
 		}
 	]).then(function(letterInput){ 
 

@@ -45,7 +45,6 @@ Word.prototype.searchLetter = function(letter) {
 	// IF NOT, INCREASE THIS.INCORRECT GUESS
 	if (this.word.indexOf(letter) > -1) {
 		var letterIndex = this.word.indexOf(letter);
-		console.log("Letter Index: " + letterIndex);
 		if (!this.letters[letterIndex].showLetter) {
 			return;
 		}
