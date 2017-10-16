@@ -1,9 +1,18 @@
 // Used for each letter in the current word
 
-module.exports = function Letter() {
+function Letter(letter) {
 
-	// if guessed, show in all caps
-
-	// if not guessed, show _
+	this.letter = letter;
+	this.showLetter = false;
 	
 };
+
+Letter.prototype.toDisplay = function() {
+	if (this.showLetter) {
+		return this.letter;
+	} else {
+		return "_ ";
+	}
+}
+
+module.exports = Letter;
