@@ -1,3 +1,8 @@
+// Fix incorrect guesses
+// Add option to restart game
+// Check for one letter and alpha char only
+// Push to github
+
 var Word = require("./word.js");
 var Letter = require("./letter.js");
 var inquirer = require("inquirer");
@@ -15,7 +20,7 @@ function takeAGuess(){
 	console.log(newWord.toDisplay() + "\n");
 
 	// Game ends (loss) if no more guesses remain
-	if (newWord.guessedLetters.length >= maxGuesses){
+	if (newWord.incorrectGuess >= maxGuesses){
 		console.log("Sorry, no more guesses left!");
 		return; 
 	}
@@ -44,7 +49,8 @@ function takeAGuess(){
 
 		// If the word is not completed and guesses remain, prompt to guess again
 		console.log("-----------------\n");
-		console.log("You have " + (maxGuesses - newWord.guessedLetters.length) + " guesses remaining\n");
+		console.log("You have " + (maxGuesses - newWord.incorrectGuess) + " guesses remaining\n");
+		console.log(newWord.incorrectGuess);
 		takeAGuess();
 
 		}

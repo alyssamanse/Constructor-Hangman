@@ -5,6 +5,7 @@ function Word(word) {
 	this.word = word;
 	this.letters = [];
 	this.guessedLetters = [];
+	this.incorrectGuess = 0;
 
 	for (var i = 0; i < this.word.length; i++) {
 		this.letters.push(new Letter(this.word[i]));
@@ -25,8 +26,8 @@ Word.prototype.isWordComplete = function() {
 
 // Checks the letters array for a match and records the guess
 Word.prototype.searchLetter = function(letter) {
-	if(this.guessedLetters.indexOf(letter) > -1) {
-		console.log("\nYou've already guessed " + letter + "!")
+	if (this.guessedLetters.indexOf(letter) > -1) {
+		console.log("\nYou've already guessed '" + letter + "'!")
 		return;
 	}
 
@@ -34,10 +35,23 @@ Word.prototype.searchLetter = function(letter) {
 	this.guessedLetters.push(letter);
 
 	// If letter is guessed correctly, change showLetter to true to render letter
-	for(var i = 0; i < this.letters.length; i++) {
+	for (var i = 0; i < this.letters.length; i++) {
 		if (this.letters[i].letter === letter) {
 			this.letters[i].showLetter = true;
 		}
+	}
+
+	// FIND INDEX OF LETTER GUESS, MATCH IT TO LETTERS ARRAY AND THEN CHECK TO SEE .SHOWLETTER IS TRUE
+	// IF NOT, INCREASE THIS.INCORRECT GUESS
+	if (this.word.indexOf(letter) > -1) {
+		var letterIndex = this.word.indexOf(letter);
+		console.log("Letter Index: " + letterIndex);
+		if (!this.letters[letterIndex].showLetter) {
+			return;
+		}
+	} else {
+		this.incorrectGuess++;
+		return;
 	}
 }
 
