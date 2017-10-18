@@ -38,11 +38,13 @@ Word.prototype.searchLetter = function(letter) {
 	for (var i = 0; i < this.letters.length; i++) {
 		if (this.letters[i].letter === letter) {
 			this.letters[i].showLetter = true;
+
+			// this is running
+			console.log("\x1b[32m%s\x1b[0m", "Correct!");
 		}
 	}
 
-	// FIND INDEX OF LETTER GUESS, MATCH IT TO LETTERS ARRAY AND THEN CHECK TO SEE .SHOWLETTER IS TRUE
-	// IF NOT, INCREASE THIS.INCORRECT GUESS
+	// Checks if the guessed letter is in the word and if not, records the incorrect guess
 	if (this.word.indexOf(letter) > -1) {
 		var letterIndex = this.word.indexOf(letter);
 		if (!this.letters[letterIndex].showLetter) {
@@ -50,6 +52,11 @@ Word.prototype.searchLetter = function(letter) {
 		}
 	} else {
 		this.incorrectGuess++;
+
+		// this is running
+		console.log("console log before incorrect color string is running..");
+		// this is NOT running
+		console.log("\x1b[30m%s\x1b[0m", "Incorrect..");
 		return;
 	}
 }
