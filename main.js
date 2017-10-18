@@ -1,8 +1,4 @@
 // Add option to restart game
-// Change color for correct and incorrect
-	// red: "\x1b[30m%s\x1b[0m", "string"
-	// green: "\x1b[32m%s\x1b[0m", "string"
-	// or npm install colors w/ .color-name after string
 // Push to github
 
 var Word = require("./word.js");
@@ -23,7 +19,7 @@ function playHangman(){
 
 	// Game ends (loss) if no more guesses remain
 	if (newWord.incorrectGuess >= maxGuesses){
-		console.log("Sorry, no more guesses left!");
+		console.log("\x1b[31m%s\x1b[0m", "Sorry, no more guesses left!");
 
 		// inquirer.prompt
 
@@ -38,10 +34,10 @@ function playHangman(){
 			message: "Guess a letter! ",
 			validate: function validateGuess(letter){
 	        	if (letter.length > 1) {
-	        		console.log("\nEnter just one letter please.");
+	        		console.log("\n\x1b[31m%s\x1b[0m", "Enter just one letter please.");
 	        		return;
 	        	} else if (!letter.match(/^[a-zA-Z]*$/)) {
-	        		console.log("\nThat's not a letter! Try again..");
+	        		console.log("\n\x1b[31m%s\x1b[0m", "That's not a letter! Try again..");
 	        		return;
 	        	} else {
 	        		return true;
@@ -59,12 +55,11 @@ function playHangman(){
 
 		// If the entire word is completed and guesses remain, game ends  (win)
 		if(newWord.isWordComplete()){ 
-			console.log("You got it! The word was '" + newWord.toDisplay() + "'.\n");
+			console.log("\x1b[32m%s\x1b[0m", "You got it! The word was '" + newWord.toDisplay() + "'.\n");
 			return;
 		}
 
 		// If the word is not completed and guesses remain, prompt to guess again
-		console.log("\n-----------------\n");
 		console.log("You have " + (maxGuesses - newWord.incorrectGuess) + " guesses remaining\n");
 		playHangman();
 

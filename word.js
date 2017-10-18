@@ -38,9 +38,6 @@ Word.prototype.searchLetter = function(letter) {
 	for (var i = 0; i < this.letters.length; i++) {
 		if (this.letters[i].letter === letter) {
 			this.letters[i].showLetter = true;
-
-			// this is running
-			console.log("\x1b[32m%s\x1b[0m", "Correct!");
 		}
 	}
 
@@ -50,13 +47,10 @@ Word.prototype.searchLetter = function(letter) {
 		if (!this.letters[letterIndex].showLetter) {
 			return;
 		}
+		console.log("\n\x1b[32m%s\x1b[0m", "CORRECT!");
 	} else {
 		this.incorrectGuess++;
-
-		// this is running
-		console.log("console log before incorrect color string is running..");
-		// this is NOT running
-		console.log("\x1b[30m%s\x1b[0m", "Incorrect..");
+		console.log("\n\x1b[31m%s\x1b[0m", "INCORRECT!");
 		return;
 	}
 }
