@@ -34,7 +34,7 @@ function playHangman(){
 				console.log("\nWant to try again, eh? Alright, here you go!");
 				newWord.incorrectGuess = 0;
 				playHangman();
-			}
+			} 
 		})
 
 		return; 

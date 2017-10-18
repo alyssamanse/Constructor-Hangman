@@ -12,16 +12,13 @@ function Word(word) {
 	}
 }
 
-// Checks to see if the entire word has been guessed correctly
-Word.prototype.isWordComplete = function() {
-
+// Checks showLetter variable to render either letter or blank space
+Word.prototype.toDisplay = function() {
+	var string = "";
 	for (var i = 0; i < this.letters.length; i++) {
-		if (!this.letters[i].showLetter) {
-			return false;
-		}
+		string += this.letters[i].render();
 	}
-
-	return true;
+	return string;
 }
 
 // Checks the letters array for a match and records the guess
@@ -55,13 +52,16 @@ Word.prototype.searchLetter = function(letter) {
 	}
 }
 
-// Checks showLetter variable to render either letter or blank space
-Word.prototype.toDisplay = function() {
-	var string = "";
+// Checks to see if the entire word has been guessed correctly
+Word.prototype.isWordComplete = function() {
+
 	for (var i = 0; i < this.letters.length; i++) {
-		string += this.letters[i].render();
+		if (!this.letters[i].showLetter) {
+			return false;
+		}
 	}
-	return string;
+
+	return true;
 }
 
 module.exports = Word;
