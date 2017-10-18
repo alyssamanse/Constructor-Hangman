@@ -1,4 +1,3 @@
-// Add option to restart game
 // Push to github
 
 var Word = require("./word.js");
@@ -21,6 +20,7 @@ function playHangman(){
 	if (newWord.incorrectGuess >= maxGuesses){
 		console.log("\x1b[31m%s\x1b[0m", "Sorry, no more guesses left!");
 
+		// Player can end the game or they get another set of guesses and another try at the word
 		inquirer.prompt([
 			{
 				name: "confirm",
@@ -29,7 +29,6 @@ function playHangman(){
 			}
 		]).then(function(response) {
 
-			// Player can end the game or they get another set of guesses and another try at the word
 			if (response.confirm) {
 				console.log("Thanks for playing! Better luck next time...");
 				return;
@@ -43,7 +42,7 @@ function playHangman(){
 		return; 
 	}
 
-	// Prompt to guess letter
+	// Prompt to guess letter with input validation
 	inquirer.prompt([
 		{
 			name: "letter",
@@ -76,8 +75,8 @@ function playHangman(){
 			console.log("\n\x1b[32m%s\x1b[0m", "You got it! The word was '" + newWord.toDisplay() + "'. Let's play again!\n");
 
 			wordIndex = Math.floor(Math.random() * wordChoices.length);
-			testWord = new Word(wordChoices[wordIndex]);
-			newWord = testWord;
+			nextWord = new Word(wordChoices[wordIndex]);
+			newWord = nextWord;
 		}
 
 		// If the word is not completed and guesses remain, prompt to guess again
@@ -88,4 +87,5 @@ function playHangman(){
   );
 }
 
+// Starts game
 playHangman();
