@@ -27,7 +27,7 @@ Word.prototype.isWordComplete = function() {
 // Checks the letters array for a match and records the guess
 Word.prototype.searchLetter = function(letter) {
 	if (this.guessedLetters.indexOf(letter) > -1) {
-		console.log("\nYou've already guessed '" + letter + "'!")
+		console.log("\n\x1b[31m%s\x1b[0m", "You've already guessed '" + letter + "'!");
 		return;
 	}
 

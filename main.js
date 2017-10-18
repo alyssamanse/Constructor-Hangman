@@ -21,7 +21,24 @@ function playHangman(){
 	if (newWord.incorrectGuess >= maxGuesses){
 		console.log("\x1b[31m%s\x1b[0m", "Sorry, no more guesses left!");
 
-		// inquirer.prompt
+		inquirer.prompt([
+			{
+				name: "confirm",
+				type: "confirm",
+				message: "Do you want to end the game?"
+			}
+		]).then(function(response) {
+
+			// Player can end the game or they get another set of guesses and another try at the word
+			if (response.confirm) {
+				console.log("Thanks for playing! Better luck next time...");
+				return;
+			} else {
+				console.log("\nWant to try again, eh? Alright, here you go!");
+				newWord.incorrectGuess = 0;
+				playHangman();
+			}
+		})
 
 		return; 
 	}
@@ -34,10 +51,10 @@ function playHangman(){
 			message: "Guess a letter! ",
 			validate: function validateGuess(letter){
 	        	if (letter.length > 1) {
-	        		console.log("\n\x1b[31m%s\x1b[0m", "Enter just one letter please.");
+	        		console.log("\n\x1b[31m%s\x1b[0m", "Enter just one letter..\n");
 	        		return;
 	        	} else if (!letter.match(/^[a-zA-Z]*$/)) {
-	        		console.log("\n\x1b[31m%s\x1b[0m", "That's not a letter! Try again..");
+	        		console.log("\n\x1b[31m%s\x1b[0m", "That's not a letter! Try again..\n");
 	        		return;
 	        	} else {
 	        		return true;
@@ -55,8 +72,12 @@ function playHangman(){
 
 		// If the entire word is completed and guesses remain, game ends  (win)
 		if(newWord.isWordComplete()){ 
-			console.log("\x1b[32m%s\x1b[0m", "You got it! The word was '" + newWord.toDisplay() + "'.\n");
-			return;
+			console.log("\n-----------------------------")
+			console.log("\n\x1b[32m%s\x1b[0m", "You got it! The word was '" + newWord.toDisplay() + "'. Let's play again!\n");
+
+			wordIndex = Math.floor(Math.random() * wordChoices.length);
+			testWord = new Word(wordChoices[wordIndex]);
+			newWord = testWord;
 		}
 
 		// If the word is not completed and guesses remain, prompt to guess again
